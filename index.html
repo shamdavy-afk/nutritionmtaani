@@ -1,0 +1,3925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutritionMtaani | Affordable Nutrition for Every Kenyan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== CSS Reset & Variables ===== */
+        :root {
+            --primary-color: #27ae60;
+            --primary-dark: #219653;
+            --primary-light: #e8f5e9;
+            --secondary-color: #3498db;
+            --secondary-dark: #2980b9;
+            --accent-color: #e74c3c;
+            --accent-dark: #c0392b;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --gray-color: #95a5a6;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --gradient-primary: linear-gradient(135deg, #27ae60, #2ecc71);
+            --gradient-secondary: linear-gradient(135deg, #3498db, #2980b9);
+            --premium-gold: #FFD700;
+            --premium-silver: #C0C0C0;
+            --tool-bmi: #4CAF50;
+            --tool-calorie: #2196F3;
+            --tool-meal: #FF9800;
+            --tool-hydration: #00BCD4;
+            --tool-tracker: #9C27B0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: var(--light-color);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ===== Common Components ===== */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        
+        .section-title p {
+            color: var(--gray-color);
+            font-size: 1.1rem;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* ===== Navigation ===== */
+        nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            cursor: pointer;
+        }
+        
+        /* ===== Page Content Container ===== */
+        #page-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 300px);
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* ===== Modal Styles ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            max-width: 800px;
+            margin: 30px auto;
+            border-radius: 12px;
+            padding: 30px;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-close:hover {
+            color: #000;
+        }
+        
+        /* ===== Tool Dashboard Styles ===== */
+        .tool-dashboard {
+            display: none;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .plan-badge {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #8B4513;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        
+        /* ===== Report Styles ===== */
+        .report-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .report-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .report-content {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .report-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .download-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pdf-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+        }
+        
+        .pdf-btn:hover {
+            background: #c0392b;
+        }
+        
+        .text-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+        }
+        
+        .text-btn:hover {
+            background: #2980b9;
+        }
+        
+        .csv-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+        }
+        
+        .csv-btn:hover {
+            background: #219653;
+        }
+        
+        .excel-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+        }
+        
+        .excel-btn:hover {
+            background: #27ae60;
+        }
+        
+        /* ===== Premium Tools Styles ===== */
+        .tools-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .tools-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .tools-hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .premium-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #8B4513;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin: 0 10px;
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.15);
+        }
+        
+        .pricing-card.popular {
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 20px 0;
+        }
+        
+        .price span {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .price-note {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .tool-features {
+            list-style: none;
+            margin: 30px 0;
+            padding: 0;
+        }
+        
+        .tool-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .tool-features li i {
+            color: #27ae60;
+            margin-right: 10px;
+        }
+        
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            padding: 15px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .tool-benefits {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .benefit-icon {
+            background: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        /* ===== Free Trial Section ===== */
+        .free-trial {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            border-radius: 15px;
+            margin: 60px 0;
+        }
+        
+        .free-trial h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .free-trial .btn {
+            background: white;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            padding: 15px 40px;
+            margin-top: 30px;
+        }
+        
+        /* ===== Payment Plans ===== */
+        .payment-plans {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+        
+        .payment-plan {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        /* ===== Tool Calculator Styles ===== */
+        .calculator {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin: 30px 0;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .result-box {
+            background: #e8f5e9;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            text-align: center;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        /* ===== Login/Register Forms ===== */
+        .auth-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .form-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .form-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .form-tab.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        .form-content {
+            display: none;
+        }
+        
+        .form-content.active {
+            display: block;
+        }
+        
+        /* ===== Home Page ===== */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .services-preview {
+            padding: 80px 0;
+            background: var(--light-color);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .service-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 15px 0;
+        }
+        
+        .education-preview {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .cta-section {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        /* ===== Contact Page ===== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .contact-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .whatsapp-icon {
+            color: #25D366;
+        }
+        
+        .phone-icon {
+            color: var(--primary-color);
+        }
+        
+        .email-icon {
+            color: #3498db;
+        }
+        
+        .contact-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 15px 0;
+            display: block;
+        }
+        
+        /* ===== Footer ===== */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        
+        .social-link:hover {
+            background: var(--primary-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+        }
+        
+        /* ===== History Section ===== */
+        .history-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+            box-shadow: var(--shadow);
+        }
+        
+        .history-list {
+            margin-top: 20px;
+        }
+        
+        .history-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* ===== Responsive Design ===== */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tools-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+            
+            .payment-plans {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .payment-plan {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .download-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .download-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+        
+        /* ===== Form Styles ===== */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* ===== Loading Animation ===== */
+        .loading {
+            text-align: center;
+            padding: 100px 0;
+            color: var(--primary-color);
+        }
+        
+        .loading i {
+            font-size: 3rem;
+            animation: spin 2s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* ===== Chart Styles ===== */
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .chart-placeholder {
+            background: #f8f9fa;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 60px 20px;
+            text-align: center;
+            color: #666;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#home" class="logo" onclick="navigateTo('home')">
+                <i class="fas fa-heartbeat"></i>
+                <span>NutritionMtaani</span>
+            </a>
+            
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#home" class="active" onclick="navigateTo('home')">Home</a>
+                <a href="#services" onclick="navigateTo('services')">Services</a>
+                <a href="#education" onclick="navigateTo('education')">Education</a>
+                <a href="#disease" onclick="navigateTo('disease')">Disease Management</a>
+                <a href="#tools" onclick="navigateTo('tools')">Premium Tools</a>
+                <a href="#payment" onclick="navigateTo('payment')">Payment</a>
+                <a href="#contact" onclick="navigateTo('contact')">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="page-content">
+        <!-- Loading indicator -->
+        <div class="loading" id="loading">
+            <i class="fas fa-spinner"></i>
+            <p>Loading...</p>
+        </div>
+
+        <!-- Home Page -->
+        <div class="page" id="home-page">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <h1>Affordable Nutrition for Every Kenyan</h1>
+                    <p>Professional nutrition advice and education at prices everyone can afford. We believe good health shouldn't be expensive.</p>
+                    <div class="hero-buttons">
+                        <a href="#services" class="btn btn-primary" onclick="navigateTo('services')">
+                            <i class="fas fa-hand-holding-heart"></i> Affordable Services
+                        </a>
+                        <a href="#tools" class="btn btn-secondary" onclick="navigateTo('tools')">
+                            <i class="fas fa-tools"></i> Premium Tools
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Preview -->
+            <section class="services-preview">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Our Affordable Services</h2>
+                        <p>Professional nutrition services starting from KES 500</p>
+                    </div>
+                    
+                    <div class="services-grid">
+                        <!-- Service 1 Preview -->
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <h3>Basic Nutrition Assessment</h3>
+                            <div class="service-price">
+                                KES 500
+                            </div>
+                            <p>30-minute consultation with personalized recommendations</p>
+                            <div class="service-cta">
+                                <a href="#services" class="btn btn-primary" onclick="navigateTo('services')">
+                                    Learn More
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Service 2 Preview -->
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h3>Family Nutrition Plan</h3>
+                            <div class="service-price">
+                                KES 1,500
+                            </div>
+                            <p>Complete meal plans for families of 4</p>
+                            <div class="service-cta">
+                                <a href="#services" class="btn btn-primary" onclick="navigateTo('services')">
+                                    Learn More
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Service 3 Preview -->
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h3>Premium Nutrition Tools</h3>
+                            <div class="service-price">
+                                KES 300/month
+                            </div>
+                            <p>AI-powered tools for personalized nutrition tracking</p>
+                            <div class="service-cta">
+                                <a href="#tools" class="btn btn-primary" onclick="navigateTo('tools')">
+                                    Explore Tools
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center" style="margin-top: 40px;">
+                        <a href="#services" class="btn btn-primary" onclick="navigateTo('services')">
+                            <i class="fas fa-eye"></i> View All Services
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Preview -->
+            <section class="education-preview">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Free Nutrition Education</h2>
+                        <p>Learn everything about nutrition at no cost</p>
+                    </div>
+                    
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h4><i class="fas fa-book"></i> Nutrition Basics</h4>
+                            <p>Learn about food groups, portion control, and healthy eating habits.</p>
+                            <a href="#education" class="read-more" onclick="navigateTo('education')">Learn More →</a>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-leaf"></i> Local Kenyan Foods</h4>
+                            <p>Discover the nutritional benefits of sukuma wiki, njahi, nduma, and more.</p>
+                            <a href="#education" class="read-more" onclick="navigateTo('education')">Learn More →</a>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-money-bill-wave"></i> Budget Eating</h4>
+                            <p>How to eat healthy on a tight budget using local market foods.</p>
+                            <a href="#education" class="read-more" onclick="navigateTo('education')">Learn More →</a>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-utensil-spoon"></i> Healthy Cooking</h4>
+                            <p>Learn healthy cooking methods to preserve nutrients.</p>
+                            <a href="#education" class="read-more" onclick="navigateTo('education')">Learn More →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center" style="margin-top: 40px;">
+                        <a href="#education" class="btn btn-primary" onclick="navigateTo('education')">
+                            <i class="fas fa-graduation-cap"></i> Explore All Topics
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="cta-section">
+                <div class="container">
+                    <h2 style="color: white;">Ready to Improve Your Health?</h2>
+                    <p style="font-size: 18px; margin-bottom: 30px;">Start your nutrition journey today with our affordable services.</p>
+                    <div class="hero-buttons">
+                        <a href="https://wa.me/254703708903" class="btn btn-secondary" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                        </a>
+                        <a href="#tools" class="btn" style="background: white; color: var(--primary-color);" onclick="navigateTo('tools')">
+                            <i class="fas fa-tools"></i> Try Premium Tools
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Services Page -->
+        <div class="page" id="services-page">
+            <section class="page-hero" style="background: linear-gradient(rgba(39, 174, 96, 0.9), rgba(39, 174, 96, 0.9)), url('https://images.unsplash.com/photo-1490818387583-1baba5e638af');">
+                <div class="container">
+                    <h1>Our Affordable Services</h1>
+                    <p>Professional nutrition services at prices that work for every Kenyan</p>
+                </div>
+            </section>
+
+            <section class="services">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Choose Your Service</h2>
+                        <p>All services include WhatsApp support and personalized recommendations</p>
+                    </div>
+                    
+                    <div class="services-grid">
+                        <!-- Service 1 -->
+                        <div class="service-card" id="basic">
+                            <div class="service-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <h3>Basic Nutrition Assessment</h3>
+                            <div class="service-price">
+                                KES 500 <span>/ one-time</span>
+                            </div>
+                            <ul class="service-features">
+                                <li>30-minute consultation</li>
+                                <li>Basic dietary assessment</li>
+                                <li>Personalized food recommendations</li>
+                                <li>Follow-up via WhatsApp</li>
+                                <li>Simple meal planning guide</li>
+                            </ul>
+                            <div class="service-cta">
+                                <a href="https://wa.me/254703708903?text=I%20want%20Basic%20Nutrition%20Assessment" class="btn btn-primary" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> Book Now
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Service 2 -->
+                        <div class="service-card" id="family">
+                            <div class="service-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h3>Family Nutrition Plan</h3>
+                            <div class="service-price">
+                                KES 1,500 <span>/ family (4 people)</span>
+                            </div>
+                            <ul class="service-features">
+                                <li>Family dietary assessment</li>
+                                <li>Weekly meal plan for family</li>
+                                <li>Shopping list with local foods</li>
+                                <li>Budget-friendly recipes</li>
+                                <li>2-week WhatsApp support</li>
+                                <li>Child nutrition guidance</li>
+                            </ul>
+                            <div class="service-cta">
+                                <a href="https://wa.me/254703708903?text=I%20want%20Family%20Nutrition%20Plan" class="btn btn-primary" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> Book Now
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Service 3 -->
+                        <div class="service-card" id="disease-service">
+                            <div class="service-icon">
+                                <i class="fas fa-stethoscope"></i>
+                            </div>
+                            <h3>Chronic Disease Management</h3>
+                            <div class="service-price">
+                                KES 2,000 <span>/ month</span>
+                            </div>
+                            <ul class="service-features">
+                                <li>Diabetes/Hypertension diet plan</li>
+                                <li>Monthly check-ins</li>
+                                <li>Medication guidance</li>
+                                <li>Lab result interpretation help</li>
+                                <li>Emergency nutrition support</li>
+                                <li>Local food alternatives</li>
+                            </ul>
+                            <div class="service-cta">
+                                <a href="https://wa.me/254703708903?text=I%20want%20Chronic%20Disease%20Management" class="btn btn-primary" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> Book Now
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Service 4 -->
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h3>Premium Nutrition Tools Package</h3>
+                            <div class="service-price">
+                                KES 300 <span>/ month</span>
+                            </div>
+                            <ul class="service-features">
+                                <li>AI Meal Planner</li>
+                                <li>Smart Calorie Tracker</li>
+                                <li>BMI & Health Calculator</li>
+                                <li>Hydration Reminder</li>
+                                <li>Progress Reports</li>
+                                <li>WhatsApp Support</li>
+                            </ul>
+                            <div class="service-cta">
+                                <a href="#tools" class="btn btn-primary" onclick="navigateTo('tools')">
+                                    <i class="fas fa-eye"></i> View Tools
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment CTA -->
+                    <div style="text-align: center; margin-top: 40px;">
+                        <h3>Ready to Book?</h3>
+                        <p>Choose your service and book via WhatsApp, or learn about our payment options.</p>
+                        <div class="hero-buttons">
+                            <a href="#payment" class="btn btn-primary" onclick="navigateTo('payment')">
+                                <i class="fas fa-money-bill-wave"></i> View Payment Options
+                            </a>
+                            <a href="#contact" class="btn btn-secondary" onclick="navigateTo('contact')">
+                                <i class="fas fa-question-circle"></i> Ask Questions
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Education Page -->
+        <div class="page" id="education-page">
+            <section class="page-hero" style="background: linear-gradient(rgba(52, 152, 219, 0.9), rgba(52, 152, 219, 0.9)), url('https://images.unsplash.com/photo-1490818387583-1baba5e638af');">
+                <div class="container">
+                    <h1>Free Nutrition Education</h1>
+                    <p>Learn everything about nutrition for free. No payments required.</p>
+                </div>
+            </section>
+
+            <section class="education" style="padding: 60px 0;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Nutrition Basics for Everyone</h2>
+                        <p>Understanding nutrition doesn't have to be complicated. Here's what every Kenyan should know:</p>
+                    </div>
+                    
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h4><i class="fas fa-utensils"></i> 1. The Food Groups</h4>
+                            <p>Every meal should include foods from these groups:</p>
+                            <ul>
+                                <li><strong>Carbohydrates:</strong> Ugali, rice, potatoes, chapati</li>
+                                <li><strong>Proteins:</strong> Beans, lentils, eggs, chicken, fish</li>
+                                <li><strong>Vegetables:</strong> Sukuma wiki, spinach, carrots, tomatoes</li>
+                                <li><strong>Fruits:</strong> Bananas, oranges, mangoes, avocados</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-hand-paper"></i> 2. Portion Control</h4>
+                            <p>Use your hand to measure portions:</p>
+                            <ul>
+                                <li><strong>Protein:</strong> Palm size (beans, meat, fish)</li>
+                                <li><strong>Carbs:</strong> Fist size (ugali, rice)</li>
+                                <li><strong>Vegetables:</strong> Two fists (sukuma wiki, cabbage)</li>
+                                <li><strong>Fats:</strong> Thumb size (oil, avocado)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-tint"></i> 3. Hydration</h4>
+                            <p>Water is essential for health:</p>
+                            <ul>
+                                <li>Drink 8 glasses of water daily</li>
+                                <li>Carry water with you always</li>
+                                <li>Limit sugary drinks</li>
+                                <li>Eat water-rich foods (watermelon, oranges)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h4><i class="fas fa-clock"></i> 4. Meal Timing</h4>
+                            <p>When to eat matters:</p>
+                            <ul>
+                                <li><strong>Breakfast:</strong> Most important meal</li>
+                                <li><strong>Lunch:</strong> Should be your largest meal</li>
+                                <li><strong>Dinner:</strong> Light and early (before 8 PM)</li>
+                                <li><strong>Snacks:</strong> Fruits, nuts, yogurt between meals</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- CTA Section -->
+                    <div style="text-align: center; margin-top: 60px; padding: 40px; background: var(--primary-light); border-radius: 8px;">
+                        <h3>Need Personalized Guidance?</h3>
+                        <p>Our nutritionists can create a customized plan for your specific needs</p>
+                        <div class="hero-buttons" style="margin-top: 20px;">
+                            <a href="#services" class="btn btn-primary" onclick="navigateTo('services')">
+                                <i class="fas fa-hand-holding-heart"></i> View Services
+                            </a>
+                            <a href="https://wa.me/254703708903" class="btn btn-secondary" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Ask Questions
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Disease Management Page -->
+        <div class="page" id="disease-page">
+            <section class="page-hero" style="background: linear-gradient(rgba(231, 76, 60, 0.9), rgba(231, 76, 60, 0.9)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b');">
+                <div class="container">
+                    <h1>Disease Management</h1>
+                    <p>Nutrition solutions for common health issues in Kenya</p>
+                </div>
+            </section>
+
+            <section class="disease-management" style="padding: 60px 0;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Managing Common Diseases with Nutrition</h2>
+                        <p>Proper diet can help manage and even prevent many chronic diseases</p>
+                    </div>
+                    
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <div class="disease-icon" style="color: #e74c3c;">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h3>Diabetes Management</h3>
+                            <p><strong>Goal:</strong> Maintain stable blood sugar levels</p>
+                            
+                            <h4><i class="fas fa-check" style="color: #27ae60;"></i> Foods to Eat:</h4>
+                            <ul>
+                                <li>Whole grains (brown rice, whole wheat ugali)</li>
+                                <li>Beans and lentils (high fiber)</li>
+                                <li>Non-starchy vegetables (sukuma wiki, cabbage)</li>
+                                <li>Lean proteins (fish, chicken, eggs)</li>
+                                <li>Healthy fats (avocado, nuts, olive oil)</li>
+                            </ul>
+                            
+                            <div class="service-cta">
+                                <a href="https://wa.me/254703708903?text=I%20need%20help%20with%20diabetes%20management" class="btn btn-primary" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> Get Diabetes Plan
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="disease-icon" style="color: #3498db;">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <h3>Hypertension (High Blood Pressure)</h3>
+                            <p><strong>Goal:</strong> Lower blood pressure naturally</p>
+                            
+                            <h4><i class="fas fa-check" style="color: #27ae60;"></i> Foods to Eat:</h4>
+                            <ul>
+                                <li>Fresh vegetables (especially sukuma wiki - high potassium)</li>
+                                <li>Bananas (potassium helps balance sodium)</li>
+                                <li>Garlic and onions (natural vasodilators)</li>
+                                <li>Watermelon (contains citrulline)</li>
+                                <li>Oats and whole grains</li>
+                            </ul>
+                            
+                            <div class="service-cta">
+                                <a href="https://wa.me/254703708903?text=I%20need%20help%20with%20hypertension" class="btn btn-primary" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> Get Hypertension Plan
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <div class="disease-icon" style="color: #f39c12;">
+                                <i class="fas fa-weight"></i>
+                            </div>
+                            <h3>Obesity/Weight Management</h3>
+                            <p><strong>Goal:</strong> Healthy, sustainable weight loss</p>
+                            
+                            <h4><i class="fas fa-check" style="color: #27ae60;"></i> Recommended:</h4>
+                            <ul>
+                                <li>Small frequent meals (5-6 small meals daily)</li>
+                                <li>Drink water before meals (reduces appetite)</li>
+                                <li>Increase vegetables (fill up on low-calorie foods)</li>
+                                <li>Walk 30 minutes daily (start with 10 minutes)</li>
+                                <li>Protein with every meal (keeps you full longer)</li>
+                            </ul>
+                            
+                            <div class="service-cta">
+                                <a href="https://wa.me/254703708903?text=I%20need%20help%20with%20weight%20management" class="btn btn-primary" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> Get Weight Loss Plan
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- CTA Section -->
+                    <div style="text-align: center; margin-top: 60px; padding: 40px; background: #e8f5e9; border-radius: 8px;">
+                        <h3>Need Professional Guidance?</h3>
+                        <p>Our Chronic Disease Management program includes personalized meal plans, medication guidance, and regular check-ins.</p>
+                        <div class="hero-buttons">
+                            <a href="#services" class="btn btn-primary" onclick="navigateTo('services')">
+                                <i class="fas fa-info-circle"></i> Learn About Our Program
+                            </a>
+                            <a href="https://wa.me/254703708903" class="btn btn-secondary" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Chat with Nutritionist
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Premium Nutrition Tools Page -->
+        <div class="page" id="tools-page">
+            <section class="tools-hero">
+                <div class="container">
+                    <h1><i class="fas fa-crown"></i> Premium Nutrition Tools</h1>
+                    <p>AI-powered nutrition tools with downloadable reports</p>
+                    <div style="margin-top: 20px;">
+                        <span class="premium-badge"><i class="fas fa-file-download"></i> DOWNLOAD REPORTS</span>
+                        <span class="premium-badge"><i class="fas fa-robot"></i> AI GENERATED</span>
+                        <span class="premium-badge"><i class="fas fa-chart-bar"></i> DETAILED ANALYTICS</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Login/Register Section -->
+            <section id="auth-section" style="padding: 60px 0;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Access Your Premium Tools</h2>
+                        <p>Login or create account to access AI-powered nutrition tools</p>
+                    </div>
+                    
+                    <div class="auth-form">
+                        <div class="form-tabs">
+                            <button class="form-tab active" onclick="showTab('login')">Login</button>
+                            <button class="form-tab" onclick="showTab('register')">Register</button>
+                        </div>
+                        
+                        <div id="login-form" class="form-content active">
+                            <div class="form-group">
+                                <label for="login-email">Email Address</label>
+                                <input type="email" id="login-email" class="form-control" placeholder="your.email@example.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" class="form-control" placeholder="Enter your password">
+                            </div>
+                            
+                            <button class="btn btn-primary" onclick="loginToTools()" style="width: 100%;">
+                                <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+                            </button>
+                            
+                            <div style="text-align: center; margin-top: 20px;">
+                                <a href="#" onclick="showTab('register')" style="color: var(--primary-color);">New user? Create account</a>
+                            </div>
+                        </div>
+                        
+                        <div id="register-form" class="form-content">
+                            <div class="form-group">
+                                <label for="reg-email">Email Address</label>
+                                <input type="email" id="reg-email" class="form-control" placeholder="your.email@example.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reg-name">Full Name</label>
+                                <input type="text" id="reg-name" class="form-control" placeholder="Your full name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reg-password">Create Password</label>
+                                <input type="password" id="reg-password" class="form-control" placeholder="Minimum 8 characters">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reg-plan">Select Package</label>
+                                <select id="reg-plan" class="form-control">
+                                    <option value="basic">Basic Tools - KES 100/month</option>
+                                    <option value="premium" selected>Premium Tools - KES 300/month</option>
+                                    <option value="family">Family Package - KES 500/month</option>
+                                </select>
+                            </div>
+                            
+                            <button class="btn btn-primary" onclick="registerForTools()" style="width: 100%;">
+                                <i class="fas fa-user-plus"></i> Create Account
+                            </button>
+                            
+                            <div style="text-align: center; margin-top: 20px;">
+                                <a href="#" onclick="showTab('login')" style="color: var(--primary-color);">Already have account? Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tool Dashboard -->
+            <section id="tool-dashboard" class="tool-dashboard" style="padding: 60px 0;">
+                <div class="container">
+                    <div class="dashboard-header">
+                        <div class="user-info">
+                            <div class="user-avatar" id="user-avatar">U</div>
+                            <div>
+                                <h3 id="user-name">User Name</h3>
+                                <div class="plan-badge" id="user-plan">Premium Plan</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="logoutFromTools()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                    
+                    <div class="section-title">
+                        <h2>Your Nutrition Tools</h2>
+                        <p>Click any tool to generate AI-powered reports</p>
+                    </div>
+                    
+                    <div class="tool-grid">
+                        <!-- BMI Tool -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-weight-scale"></i>
+                            </div>
+                            <h3>BMI Analyzer</h3>
+                            <p>Calculate BMI with detailed health analysis and recommendations</p>
+                            <button class="btn btn-primary" onclick="openBMITool()" style="width: 100%; margin-top: 20px;">
+                                <i class="fas fa-chart-line"></i> Open Tool
+                            </button>
+                        </div>
+                        
+                        <!-- Calorie Calculator -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <h3>Calorie Calculator</h3>
+                            <p>Calculate daily calorie needs with meal planning</p>
+                            <button class="btn btn-primary" onclick="openCalorieTool()" style="width: 100%; margin-top: 20px;">
+                                <i class="fas fa-calculator"></i> Open Tool
+                            </button>
+                        </div>
+                        
+                        <!-- Meal Planner -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <h3>AI Meal Planner</h3>
+                            <p>Generate personalized weekly meal plans with Kenyan foods</p>
+                            <button class="btn btn-primary" onclick="openMealPlanner()" style="width: 100%; margin-top: 20px;">
+                                <i class="fas fa-robot"></i> Open Tool
+                            </button>
+                        </div>
+                        
+                        <!-- Progress Tracker -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h3>Progress Tracker</h3>
+                            <p>Track your health journey with detailed charts and reports</p>
+                            <button class="btn btn-primary" onclick="openProgressTracker()" style="width: 100%; margin-top: 20px;">
+                                <i class="fas fa-trend-up"></i> Open Tool
+                            </button>
+                        </div>
+                        
+                        <!-- Hydration Tracker -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <h3>Hydration Tracker</h3>
+                            <p>Track water intake with smart reminders and reports</p>
+                            <button class="btn btn-primary" onclick="openHydrationTracker()" style="width: 100%; margin-top: 20px;">
+                                <i class="fas fa-water"></i> Open Tool
+                            </button>
+                        </div>
+                        
+                        <!-- Health Reports -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-file-medical"></i>
+                            </div>
+                            <h3>Health Reports</h3>
+                            <p>Generate comprehensive health reports in multiple formats</p>
+                            <button class="btn btn-primary" onclick="openHealthReports()" style="width: 100%; margin-top: 20px;">
+                                <i class="fas fa-file-download"></i> Open Tool
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- History Section -->
+                    <div class="history-section">
+                        <h3><i class="fas fa-history"></i> Your Tool History</h3>
+                        <div id="history-list" class="history-list">
+                            <!-- History items will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pricing Section -->
+            <section style="padding: 80px 0;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Choose Your Premium Tool Package</h2>
+                        <p>All tools include downloadable reports and AI-generated content</p>
+                    </div>
+                    
+                    <div class="pricing-grid">
+                        <!-- Basic Package -->
+                        <div class="pricing-card">
+                            <h3>Basic Tools</h3>
+                            <div class="price">KES 100<span>/month</span></div>
+                            <p class="price-note">Perfect for individuals</p>
+                            
+                            <ul class="tool-features">
+                                <li><i class="fas fa-check-circle"></i> BMI Calculator</li>
+                                <li><i class="fas fa-check-circle"></i> Calorie Calculator</li>
+                                <li><i class="fas fa-check-circle"></i> Basic Meal Planner</li>
+                                <li><i class="fas fa-check-circle"></i> PDF Reports</li>
+                                <li><i class="fas fa-times-circle" style="color: #ccc;"></i> AI Meal Generator</li>
+                                <li><i class="fas fa-times-circle" style="color: #ccc;"></i> Progress Charts</li>
+                            </ul>
+                            
+                            <button class="btn btn-primary" onclick="selectPlan('basic')" style="width: 100%;">
+                                <i class="fas fa-shopping-cart"></i> Select Plan
+                            </button>
+                        </div>
+                        
+                        <!-- Popular Package -->
+                        <div class="pricing-card popular">
+                            <div class="popular-badge">MOST POPULAR</div>
+                            <h3>Premium Tools</h3>
+                            <div class="price">KES 300<span>/month</span></div>
+                            <p class="price-note">Best value for individuals</p>
+                            
+                            <ul class="tool-features">
+                                <li><i class="fas fa-check-circle"></i> Everything in Basic</li>
+                                <li><i class="fas fa-check-circle"></i> AI Meal Generator</li>
+                                <li><i class="fas fa-check-circle"></i> Smart Progress Tracker</li>
+                                <li><i class="fas fa-check-circle"></i> Hydration Tracker</li>
+                                <li><i class="fas fa-check-circle"></i> PDF, CSV, Excel Reports</li>
+                                <li><i class="fas fa-check-circle"></i> Email Support</li>
+                            </ul>
+                            
+                            <button class="btn btn-primary" onclick="selectPlan('premium')" style="width: 100%; background: var(--primary-dark);">
+                                <i class="fas fa-crown"></i> Get Premium
+                            </button>
+                        </div>
+                        
+                        <!-- Family Package -->
+                        <div class="pricing-card">
+                            <h3>Family Package</h3>
+                            <div class="price">KES 500<span>/month</span></div>
+                            <p class="price-note">For families up to 6 people</p>
+                            
+                            <ul class="tool-features">
+                                <li><i class="fas fa-check-circle"></i> Everything in Premium</li>
+                                <li><i class="fas fa-check-circle"></i> Family Meal Planning</li>
+                                <li><i class="fas fa-check-circle"></i> Child Nutrition Tools</li>
+                                <li><i class="fas fa-check-circle"></i> Shopping List Generator</li>
+                                <li><i class="fas fa-check-circle"></i> Multiple Report Formats</li>
+                                <li><i class="fas fa-check-circle"></i> Priority Support</li>
+                            </ul>
+                            
+                            <button class="btn btn-primary" onclick="selectPlan('family')" style="width: 100%;">
+                                <i class="fas fa-users"></i> Family Package
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Free Trial Section -->
+            <section class="free-trial">
+                <div class="container">
+                    <h3>Try Our Tools FREE for 7 Days!</h3>
+                    <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 20px;">
+                        No payment required. Experience premium nutrition tools before you commit.
+                    </p>
+                    <button class="btn" onclick="startFreeTrial()" style="background: white; color: var(--primary-color); padding: 15px 40px;">
+                        <i class="fas fa-play-circle"></i> Start Free Trial
+                    </button>
+                </div>
+            </section>
+
+            <!-- Tool Features Section -->
+            <section style="padding: 80px 0; background: #f8f9fa;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Premium Tool Features</h2>
+                        <p>What you get with our AI-powered nutrition tools</p>
+                    </div>
+                    
+                    <div class="tool-grid">
+                        <!-- Feature 1 -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <h3>Downloadable Reports</h3>
+                            <p>Generate and download detailed reports in multiple formats</p>
+                            <ul style="margin-top: 15px;">
+                                <li>PDF reports with charts</li>
+                                <li>Excel spreadsheets</li>
+                                <li>CSV data files</li>
+                                <li>Printable formats</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Feature 2 -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3>AI-Powered Analysis</h3>
+                            <p>Advanced AI algorithms analyze your data for personalized insights</p>
+                            <ul style="margin-top: 15px;">
+                                <li>Smart meal suggestions</li>
+                                <li>Nutritional gap analysis</li>
+                                <li>Progress predictions</li>
+                                <li>Personalized tips</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Feature 3 -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Visual Progress Tracking</h3>
+                            <p>Track your journey with beautiful charts and graphs</p>
+                            <ul style="margin-top: 15px;">
+                                <li>Weight loss charts</li>
+                                <li>Nutritional intake graphs</li>
+                                <li>Progress comparisons</li>
+                                <li>Goal tracking</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Feature 4 -->
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3>Mobile-Friendly Design</h3>
+                            <p>Access your tools on any device, anywhere</p>
+                            <ul style="margin-top: 15px;">
+                                <li>Works on all phones</li>
+                                <li>Offline access to reports</li>
+                                <li>Push notifications</li>
+                                <li>Easy data entry</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Payment Page -->
+        <div class="page" id="payment-page">
+            <section class="page-hero" style="background: linear-gradient(rgba(39, 174, 96, 0.9), rgba(39, 174, 96, 0.9)), url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');">
+                <div class="container">
+                    <h1>Easy Payment Options</h1>
+                    <p>Multiple ways to pay that work for everyone in Kenya</p>
+                </div>
+            </section>
+
+            <section style="padding: 60px 0;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Choose Your Payment Method</h2>
+                        <p>Secure, fast, and convenient payment options</p>
+                    </div>
+                    
+                    <div class="content-grid">
+                        <!-- M-Pesa -->
+                        <div class="content-card">
+                            <div class="service-icon" style="color: #00A859;">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3>M-Pesa</h3>
+                            <p style="color: #666; margin-bottom: 20px;">Most popular in Kenya</p>
+                            
+                            <div style="text-align: left; margin-bottom: 25px;">
+                                <h4><i class="fas fa-check-circle" style="color: #27ae60;"></i> Benefits:</h4>
+                                <ul style="padding-left: 20px;">
+                                    <li>Instant payment confirmation</li>
+                                    <li>Available 24/7</li>
+                                    <li>No extra charges</li>
+                                    <li>Secure and reliable</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Airtel Money -->
+                        <div class="content-card">
+                            <div class="service-icon" style="color: #E21836;">
+                                <i class="fas fa-signal"></i>
+                            </div>
+                            <h3>Airtel Money</h3>
+                            <p style="color: #666; margin-bottom: 20px;">For Airtel users</p>
+                            
+                            <div style="text-align: left; margin-bottom: 25px;">
+                                <h4><i class="fas fa-check-circle" style="color: #27ae60;"></i> Benefits:</h4>
+                                <ul style="padding-left: 20px;">
+                                    <li>Works on Airtel network</li>
+                                    <li>Same-day processing</li>
+                                    <li>Easy to use</li>
+                                    <li>Secure transactions</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Cash -->
+                        <div class="content-card">
+                            <div class="service-icon" style="color: #f39c12;">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <h3>Cash Payments</h3>
+                            <p style="color: #666; margin-bottom: 20px;">In-person payments</p>
+                            
+                            <div style="text-align: left; margin-bottom: 25px;">
+                                <h4><i class="fas fa-check-circle" style="color: #27ae60;"></i> Benefits:</h4>
+                                <ul style="padding-left: 20px;">
+                                    <li>No transaction fees</li>
+                                    <li>Immediate confirmation</li>
+                                    <li>Receipt provided</li>
+                                    <li>Personal interaction</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Details -->
+                    <div style="background: #e8f5e9; padding: 30px; border-radius: 8px; margin: 40px 0;">
+                        <h3><i class="fas fa-clipboard-check"></i> M-Pesa Payment Details</h3>
+                        <div style="margin-top: 20px;">
+                            <div style="display: flex; align-items: center; padding: 15px; background: white; border-radius: 5px; margin-bottom: 15px;">
+                                <strong style="min-width: 150px;">Paybill Number:</strong>
+                                <code style="flex: 1; padding: 10px; background: #f1f8e9; border-radius: 4px;">542542</code>
+                                <button class="btn btn-primary" onclick="copyToClipboard('542542')" style="margin-left: 10px;">
+                                    Copy
+                                </button>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; padding: 15px; background: white; border-radius: 5px;">
+                                <strong style="min-width: 150px;">Account Number:</strong>
+                                <code style="flex: 1; padding: 10px; background: #f1f8e9; border-radius: 4px;">068141</code>
+                                <button class="btn btn-primary" onclick="copyToClipboard('068141')" style="margin-left: 10px;">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Confirmation -->
+                    <div style="text-align: center; margin-top: 40px; padding: 40px; background: #fff8e1; border-radius: 8px;">
+                        <h3>Send Payment Confirmation</h3>
+                        <p style="margin-bottom: 20px;">After making payment, send confirmation via WhatsApp</p>
+                        <a href="https://wa.me/254703708903" class="btn btn-primary" target="_blank" style="padding: 15px 30px;">
+                            <i class="fab fa-whatsapp"></i> Send Confirmation
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Page -->
+        <div class="page" id="contact-page">
+            <section class="page-hero" style="background: linear-gradient(rgba(52, 152, 219, 0.9), rgba(52, 152, 219, 0.9)), url('https://images.unsplash.com/photo-1551836026-d5c2c0b4d7a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');">
+                <div class="container">
+                    <h1>Contact NutritionMtaani</h1>
+                    <p>We're here to help with all your nutrition questions and concerns</p>
+                </div>
+            </section>
+
+            <section style="padding: 60px 0;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Get in Touch</h2>
+                        <p>Choose your preferred way to contact us</p>
+                    </div>
+                    
+                    <div class="content-grid">
+                        <!-- WhatsApp -->
+                        <div class="content-card">
+                            <div class="service-icon" style="color: #25D366;">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <h3>WhatsApp</h3>
+                            <p>Fastest way to reach us. We respond within minutes during business hours.</p>
+                            <a href="tel:0703708903" style="font-size: 24px; font-weight: 700; color: var(--primary-color); margin: 15px 0; display: block;">0703 708 903</a>
+                            <a href="https://wa.me/254703708903" class="btn btn-primary" target="_blank" style="width: 100%; margin-top: 15px;">
+                                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                            </a>
+                        </div>
+                        
+                        <!-- Phone Call -->
+                        <div class="content-card">
+                            <div class="service-icon" style="color: var(--primary-color);">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <h3>Phone Call</h3>
+                            <p>Call us directly for immediate assistance or to book appointments.</p>
+                            <a href="tel:0703708903" style="font-size: 24px; font-weight: 700; color: var(--primary-color); margin: 15px 0; display: block;">0703 708 903</a>
+                            <a href="tel:0703708903" class="btn btn-primary" style="width: 100%; margin-top: 15px;">
+                                <i class="fas fa-phone-alt"></i> Call Now
+                            </a>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="content-card">
+                            <div class="service-icon" style="color: #3498db;">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h3>Email</h3>
+                            <p>Send detailed questions or documents. We respond within 2 hours.</p>
+                            <span style="font-size: 18px; font-weight: 700; color: var(--primary-color); margin: 15px 0; display: block;">nutritionmtaani@gmail.com</span>
+                            <a href="mailto:nutritionmtaani@gmail.com" class="btn btn-primary" style="width: 100%; margin-top: 15px; background: #3498db;">
+                                <i class="fas fa-envelope"></i> Send Email
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form -->
+                    <div style="margin-top: 60px;">
+                        <div class="section-title">
+                            <h2>Send Us a Message</h2>
+                            <p>Fill out the form below and we'll get back to you promptly</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 40px; border-radius: 8px; box-shadow: var(--shadow);">
+                            <form id="contactForm" onsubmit="submitContactForm(event)">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                                    <div class="form-group">
+                                        <label for="name">Full Name *</label>
+                                        <input type="text" id="name" class="form-control" placeholder="Your full name" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number *</label>
+                                        <input type="tel" id="phone" class="form-control" placeholder="07XX XXX XXX" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" class="form-control" placeholder="your.email@example.com">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="message">Your Message *</label>
+                                    <textarea id="message" class="form-control" placeholder="Tell us about your nutrition needs, health concerns, or questions..." required></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px;">
+                                    <i class="fas fa-paper-plane"></i> Send Message
+                                </button>
+                                
+                                <div id="successMessage" style="display: none; background: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin-top: 20px;">
+                                    <i class="fas fa-check-circle"></i> Thank you! Your message has been sent. We'll contact you within 2 hours.
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>NutritionMtaani</h3>
+                    <p>Affordable nutrition services for every Kenyan. We believe good health should be accessible to all.</p>
+                    <div class="social-links">
+                        <a href="https://wa.me/254703708903" class="social-link" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home" onclick="navigateTo('home')">Home</a></li>
+                        <li><a href="#services" onclick="navigateTo('services')">Services</a></li>
+                        <li><a href="#education" onclick="navigateTo('education')">Education</a></li>
+                        <li><a href="#disease" onclick="navigateTo('disease')">Disease Management</a></li>
+                        <li><a href="#tools" onclick="navigateTo('tools')">Premium Tools</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3>Contact Information</h3>
+                    <p><i class="fas fa-phone"></i> 0703 708 903</p>
+                    <p><i class="fas fa-envelope"></i> nutritionmtaani@gmail.com</p>
+                    <p><i class="fab fa-whatsapp"></i> WhatsApp: 0703 708 903</p>
+                    <p><i class="fas fa-clock"></i> Mon-Sat: 8AM-6PM</p>
+                </div>
+                
+                <div>
+                    <h3>Payment Details</h3>
+                    <p><strong>M-Pesa Paybill:</strong> 542542</p>
+                    <p><strong>Account Number:</strong> 068141</p>
+                    <p><strong>Airtel Money:</strong> Biller 542542</p>
+                    <p><strong>Cash Payments:</strong> Available in Nairobi</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; <span id="currentYear"></span> NutritionMtaani. Lishe Bora kwa Wote. | Affordable Nutrition for All</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Tool Modals -->
+    <!-- BMI Tool Modal -->
+    <div id="bmi-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-weight-scale"></i> BMI Analyzer</h2>
+                <button class="modal-close" onclick="closeModal('bmi-modal')">&times;</button>
+            </div>
+            
+            <div class="calculator">
+                <h3>Enter Your Details</h3>
+                <p>Fill in your information to generate a detailed BMI analysis report.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0;">
+                    <div class="input-group">
+                        <label for="modal-height">Height (cm)</label>
+                        <input type="number" id="modal-height" placeholder="e.g., 165" min="100" max="250" value="165">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="modal-weight">Weight (kg)</label>
+                        <input type="number" id="modal-weight" placeholder="e.g., 65" min="30" max="200" value="65">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                    <div class="input-group">
+                        <label for="modal-age">Age</label>
+                        <input type="number" id="modal-age" placeholder="e.g., 30" min="15" max="100" value="30">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="modal-gender">Gender</label>
+                        <select id="modal-gender">
+                            <option value="male">Male</option>
+                            <option value="female" selected>Female</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="generateBMIReport()" style="width: 100%; padding: 15px;">
+                    <i class="fas fa-chart-bar"></i> Generate Detailed Report
+                </button>
+                
+                <div id="bmi-report-section" class="report-section">
+                    <div class="report-header">
+                        <h3>Your BMI Analysis Report</h3>
+                        <p>Generated on <span id="report-date"></span></p>
+                    </div>
+                    
+                    <div class="report-content">
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <div class="result-value" id="report-bmi-value">0</div>
+                            <div id="report-bmi-category" style="font-size: 1.2rem; font-weight: 600; margin: 10px 0;"></div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                                <h4>Personal Details</h4>
+                                <p><strong>Height:</strong> <span id="report-height">0</span> cm</p>
+                                <p><strong>Weight:</strong> <span id="report-weight">0</span> kg</p>
+                                <p><strong>Age:</strong> <span id="report-age">0</span> years</p>
+                                <p><strong>Gender:</strong> <span id="report-gender">Female</span></p>
+                            </div>
+                            
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                                <h4>BMI Categories</h4>
+                                <p><strong>Underweight:</strong> Below 18.5</p>
+                                <p><strong>Normal weight:</strong> 18.5 - 24.9</p>
+                                <p><strong>Overweight:</strong> 25 - 29.9</p>
+                                <p><strong>Obese:</strong> 30 and above</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                            <h4><i class="fas fa-lightbulb"></i> Personalized Recommendations</h4>
+                            <div id="report-recommendations" style="margin-top: 15px; white-space: pre-line;"></div>
+                        </div>
+                        
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-line" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                            <p>BMI Progress Chart</p>
+                            <small>Your BMI history chart will appear here after multiple entries</small>
+                        </div>
+                    </div>
+                    
+                    <div class="report-footer">
+                        <p>This report is generated by NutritionMtaani AI. For personalized nutrition plans, visit nutritionmtaani.com</p>
+                    </div>
+                    
+                    <div class="download-options">
+                        <button class="download-btn pdf-btn" onclick="downloadReport('pdf', 'bmi')">
+                            <i class="fas fa-file-pdf"></i> Download PDF
+                        </button>
+                        <button class="download-btn text-btn" onclick="downloadReport('text', 'bmi')">
+                            <i class="fas fa-file-alt"></i> Download Text
+                        </button>
+                        <button class="download-btn csv-btn" onclick="downloadReport('csv', 'bmi')">
+                            <i class="fas fa-file-csv"></i> Download CSV
+                        </button>
+                        <button class="download-btn excel-btn" onclick="downloadReport('excel', 'bmi')">
+                            <i class="fas fa-file-excel"></i> Download Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calorie Calculator Modal -->
+    <div id="calorie-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-fire"></i> Calorie Calculator</h2>
+                <button class="modal-close" onclick="closeModal('calorie-modal')">&times;</button>
+            </div>
+            
+            <div class="calculator">
+                <h3>Calculate Your Daily Calorie Needs</h3>
+                <p>Enter your details to calculate your personalized daily calorie requirements.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0;">
+                    <div class="input-group">
+                        <label for="cal-age">Age</label>
+                        <input type="number" id="cal-age" placeholder="e.g., 30" min="15" max="100" value="30">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="cal-gender">Gender</label>
+                        <select id="cal-gender">
+                            <option value="male">Male</option>
+                            <option value="female" selected>Female</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                    <div class="input-group">
+                        <label for="cal-height">Height (cm)</label>
+                        <input type="number" id="cal-height" placeholder="e.g., 165" min="100" max="250" value="165">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="cal-weight">Weight (kg)</label>
+                        <input type="number" id="cal-weight" placeholder="e.g., 65" min="30" max="200" value="65">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="cal-activity">Activity Level</label>
+                    <select id="cal-activity">
+                        <option value="1.2">Sedentary (little or no exercise)</option>
+                        <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
+                        <option value="1.55" selected>Moderately active (moderate exercise 3-5 days/week)</option>
+                        <option value="1.725">Very active (hard exercise 6-7 days/week)</option>
+                        <option value="1.9">Extra active (very hard exercise, physical job)</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="cal-goal">Goal</label>
+                    <select id="cal-goal">
+                        <option value="maintain">Maintain weight</option>
+                        <option value="lose">Lose weight (0.5 kg/week)</option>
+                        <option value="lose2">Lose weight (1 kg/week)</option>
+                        <option value="gain">Gain weight (0.5 kg/week)</option>
+                        <option value="gain2">Gain weight (1 kg/week)</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" onclick="generateCalorieReport()" style="width: 100%; padding: 15px; margin-top: 20px;">
+                    <i class="fas fa-calculator"></i> Calculate Calorie Needs
+                </button>
+                
+                <div id="calorie-report-section" class="report-section">
+                    <div class="report-header">
+                        <h3>Your Calorie Analysis Report</h3>
+                        <p>Personalized daily calorie recommendations</p>
+                    </div>
+                    
+                    <div class="report-content">
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                                <div style="background: #e8f5e9; padding: 20px; border-radius: 10px; min-width: 200px;">
+                                    <h4>Maintenance</h4>
+                                    <div class="result-value" id="cal-maintenance">0</div>
+                                    <p>calories/day</p>
+                                </div>
+                                
+                                <div style="background: #ffeaa7; padding: 20px; border-radius: 10px; min-width: 200px;">
+                                    <h4>Weight Loss</h4>
+                                    <div class="result-value" id="cal-weightloss">0</div>
+                                    <p>calories/day</p>
+                                </div>
+                                
+                                <div style="background: #a29bfe; padding: 20px; border-radius: 10px; min-width: 200px;">
+                                    <h4>Weight Gain</h4>
+                                    <div class="result-value" id="cal-weightgain">0</div>
+                                    <p>calories/day</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                            <h4><i class="fas fa-utensils"></i> Sample Meal Plan</h4>
+                            <div id="meal-plan-sample" style="margin-top: 15px;">
+                                <p><strong>Breakfast (7:00 AM):</strong> 2 eggs, 1 slice whole wheat bread, 1 banana</p>
+                                <p><strong>Morning Snack (10:00 AM):</strong> 1 apple, 10 almonds</p>
+                                <p><strong>Lunch (1:00 PM):</strong> Ugali, sukuma wiki, grilled chicken</p>
+                                <p><strong>Evening Snack (4:00 PM):</strong> Greek yogurt with berries</p>
+                                <p><strong>Dinner (7:00 PM):</strong> Brown rice, beans, mixed vegetables</p>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-pie" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                            <p>Macronutrient Distribution Chart</p>
+                            <small>Your ideal protein, carbs, and fat distribution will appear here</small>
+                        </div>
+                    </div>
+                    
+                    <div class="report-footer">
+                        <p>This calorie calculation uses the Mifflin-St Jeor equation, considered the most accurate for most people.</p>
+                    </div>
+                    
+                    <div class="download-options">
+                        <button class="download-btn pdf-btn" onclick="downloadReport('pdf', 'calorie')">
+                            <i class="fas fa-file-pdf"></i> Download PDF
+                        </button>
+                        <button class="download-btn excel-btn" onclick="downloadReport('excel', 'calorie')">
+                            <i class="fas fa-file-excel"></i> Download Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meal Planner Modal -->
+    <div id="meal-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-utensils"></i> AI Meal Planner</h2>
+                <button class="modal-close" onclick="closeModal('meal-modal')">&times;</button>
+            </div>
+            
+            <div class="calculator">
+                <h3>Generate Your Weekly Meal Plan</h3>
+                <p>AI-powered meal planning with Kenyan foods</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0;">
+                    <div class="input-group">
+                        <label for="meal-calories">Daily Calories</label>
+                        <input type="number" id="meal-calories" placeholder="e.g., 2000" min="1200" max="5000" value="2000">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="meal-diet">Diet Type</label>
+                        <select id="meal-diet">
+                            <option value="balanced">Balanced</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="lowcarb">Low Carb</option>
+                            <option value="highprotein">High Protein</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                    <div class="input-group">
+                        <label for="meal-budget">Budget Level</label>
+                        <select id="meal-budget">
+                            <option value="low">Low (KES 500/week)</option>
+                            <option value="medium" selected>Medium (KES 1000/week)</option>
+                            <option value="high">High (KES 2000/week)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="meal-allergies">Allergies/Restrictions</label>
+                        <select id="meal-allergies">
+                            <option value="none">None</option>
+                            <option value="dairy">Dairy Free</option>
+                            <option value="gluten">Gluten Free</option>
+                            <option value="nuts">Nut Free</option>
+                            <option value="seafood">Seafood Free</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="generateMealPlan()" style="width: 100%; padding: 15px;">
+                    <i class="fas fa-robot"></i> Generate Meal Plan
+                </button>
+                
+                <div id="meal-report-section" class="report-section">
+                    <div class="report-header">
+                        <h3>Your Weekly Meal Plan</h3>
+                        <p>Generated with local Kenyan foods</p>
+                    </div>
+                    
+                    <div class="report-content">
+                        <div style="margin-bottom: 30px;">
+                            <h4><i class="fas fa-info-circle"></i> Plan Summary</h4>
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px;">
+                                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">7</div>
+                                    <div>Days</div>
+                                </div>
+                                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">21</div>
+                                    <div>Meals</div>
+                                </div>
+                                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">14</div>
+                                    <div>Snacks</div>
+                                </div>
+                                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">KES 1,000</div>
+                                    <div>Estimated Cost</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="weekly-meal-plan" style="margin-bottom: 30px;">
+                            <!-- Dynamic content will be inserted here -->
+                        </div>
+                        
+                        <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                            <h4><i class="fas fa-shopping-cart"></i> Shopping List</h4>
+                            <div id="shopping-list" style="margin-top: 15px; columns: 2;">
+                                <!-- Dynamic content will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-footer">
+                        <p>This meal plan is AI-generated and should be adjusted based on personal preferences and medical conditions.</p>
+                    </div>
+                    
+                    <div class="download-options">
+                        <button class="download-btn pdf-btn" onclick="downloadReport('pdf', 'meal')">
+                            <i class="fas fa-file-pdf"></i> Download PDF
+                        </button>
+                        <button class="download-btn excel-btn" onclick="downloadReport('excel', 'meal')">
+                            <i class="fas fa-file-excel"></i> Download Excel
+                        </button>
+                        <button class="download-btn text-btn" onclick="downloadReport('text', 'meal')">
+                            <i class="fas fa-file-alt"></i> Shopping List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Tracker Modal -->
+    <div id="progress-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-chart-line"></i> Progress Tracker</h2>
+                <button class="modal-close" onclick="closeModal('progress-modal')">&times;</button>
+            </div>
+            
+            <div class="calculator">
+                <h3>Track Your Health Journey</h3>
+                <p>Enter your progress data to generate detailed reports and charts.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0;">
+                    <div class="input-group">
+                        <label for="progress-date">Date</label>
+                        <input type="date" id="progress-date" value="">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="progress-weight">Current Weight (kg)</label>
+                        <input type="number" id="progress-weight" placeholder="e.g., 65" step="0.1">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                    <div class="input-group">
+                        <label for="progress-waist">Waist Circumference (cm)</label>
+                        <input type="number" id="progress-waist" placeholder="e.g., 80">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="progress-energy">Energy Level (1-10)</label>
+                        <input type="number" id="progress-energy" placeholder="e.g., 7" min="1" max="10">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="progress-notes">Notes</label>
+                    <textarea id="progress-notes" class="form-control" placeholder="How are you feeling? Any challenges or successes?"></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="saveProgressEntry()" style="flex: 1;">
+                        <i class="fas fa-save"></i> Save Entry
+                    </button>
+                    <button class="btn btn-secondary" onclick="generateProgressReport()" style="flex: 1;">
+                        <i class="fas fa-chart-bar"></i> Generate Report
+                    </button>
+                </div>
+                
+                <div id="progress-report-section" class="report-section">
+                    <div class="report-header">
+                        <h3>Your Progress Report</h3>
+                        <p>Health journey analysis and insights</p>
+                    </div>
+                    
+                    <div class="report-content">
+                        <div style="margin-bottom: 30px;">
+                            <h4><i class="fas fa-trophy"></i> Progress Summary</h4>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px;">
+                                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #27ae60;" id="progress-total">0</div>
+                                    <div>Total Entries</div>
+                                </div>
+                                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #e74c3c;" id="progress-weight-change">0 kg</div>
+                                    <div>Weight Change</div>
+                                </div>
+                                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #3498db;" id="progress-days">0</div>
+                                    <div>Days Tracked</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <h4><i class="fas fa-chart-line"></i> Weight Progress Chart</h4>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-line" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                                <p>Weight Progress Over Time</p>
+                                <small>Your weight chart will appear here after multiple entries</small>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container" style="margin-top: 30px;">
+                            <h4><i class="fas fa-chart-bar"></i> Energy Level Trend</h4>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-bar" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                                <p>Daily Energy Levels</p>
+                                <small>Your energy level chart will appear here after multiple entries</small>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin-top: 30px;">
+                            <h4><i class="fas fa-lightbulb"></i> Insights & Recommendations</h4>
+                            <div id="progress-insights" style="margin-top: 15px;">
+                                <p>Continue tracking to receive personalized insights based on your progress data.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-footer">
+                        <p>Consistent tracking leads to better results. Aim to log your progress at least once per week.</p>
+                    </div>
+                    
+                    <div class="download-options">
+                        <button class="download-btn pdf-btn" onclick="downloadReport('pdf', 'progress')">
+                            <i class="fas fa-file-pdf"></i> Download PDF
+                        </button>
+                        <button class="download-btn csv-btn" onclick="downloadReport('csv', 'progress')">
+                            <i class="fas fa-file-csv"></i> Download CSV
+                        </button>
+                        <button class="download-btn excel-btn" onclick="downloadReport('excel', 'progress')">
+                            <i class="fas fa-file-excel"></i> Download Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Global variables
+        let currentUser = null;
+        let currentReport = null;
+
+        // Initialize the website
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Hide loading indicator
+            document.getElementById('loading').style.display = 'none';
+            
+            // Initialize navigation based on URL hash
+            const hash = window.location.hash.substring(1) || 'home';
+            navigateTo(hash);
+            
+            // Add active class to current nav link
+            updateNavLinks(hash);
+            
+            // Check if user is logged in
+            checkLoggedInUser();
+            
+            // Set default date for progress tracker
+            document.getElementById('progress-date').value = new Date().toISOString().split('T')[0];
+        });
+        
+        // Navigation function
+        function navigateTo(page) {
+            // Hide loading indicator
+            document.getElementById('loading').style.display = 'none';
+            
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+            });
+            
+            // Show the selected page
+            const pageElement = document.getElementById(`${page}-page`);
+            if (pageElement) {
+                pageElement.classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+                
+                // Update URL hash
+                window.location.hash = page;
+                
+                // Update navigation links
+                updateNavLinks(page);
+                
+                // Close mobile menu if open
+                const navLinks = document.getElementById('navLinks');
+                if (navLinks) {
+                    navLinks.classList.remove('active');
+                }
+                
+                // Special handling for tools page
+                if (page === 'tools') {
+                    setTimeout(checkLoggedInUser, 100);
+                }
+            } else {
+                // Default to home if page not found
+                navigateTo('home');
+            }
+        }
+        
+        // Update navigation links active state
+        function updateNavLinks(activePage) {
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${activePage}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Toggle mobile menu
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+        
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Copied to clipboard: ' + text);
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Copied to clipboard: ' + text);
+            });
+        }
+        
+        // Contact form submission
+        function submitContactForm(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Reset form
+            document.getElementById('contactForm').reset();
+            
+            // Scroll to success message
+            document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+            
+            // In a real application, you would send this data to a server
+            console.log('Contact form submitted:', { name, phone, message });
+            
+            return false;
+        }
+        
+        // Handle browser back/forward buttons
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash.substring(1) || 'home';
+            navigateTo(hash);
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (navLinks && menuToggle && !navLinks.contains(event.target) && !menuToggle.contains(event.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        // ============================================
+        // PREMIUM TOOLS MANAGEMENT FUNCTIONS
+        // ============================================
+        
+        // Show/hide form tabs
+        function showTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.form-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide form content
+            document.querySelectorAll('.form-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-form`).classList.add('active');
+        }
+        
+        // Check if user is logged in
+        function checkLoggedInUser() {
+            const savedUser = localStorage.getItem('nutritionToolsUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showToolDashboard();
+            } else {
+                showAuthSection();
+            }
+        }
+        
+        // Show authentication section
+        function showAuthSection() {
+            document.getElementById('auth-section').style.display = 'block';
+            document.getElementById('tool-dashboard').style.display = 'none';
+        }
+        
+        // Show tool dashboard
+        function showToolDashboard() {
+            if (!currentUser) return;
+            
+            document.getElementById('auth-section').style.display = 'none';
+            document.getElementById('tool-dashboard').style.display = 'block';
+            
+            // Update user info
+            document.getElementById('user-name').textContent = currentUser.name || currentUser.email.split('@')[0];
+            document.getElementById('user-avatar').textContent = (currentUser.name || currentUser.email).charAt(0).toUpperCase();
+            document.getElementById('user-plan').textContent = currentUser.plan ? currentUser.plan.charAt(0).toUpperCase() + currentUser.plan.slice(1) + ' Plan' : 'Premium Plan';
+            
+            // Load history
+            loadHistory();
+        }
+        
+        // Login to tools
+        function loginToTools() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                alert('Please enter email and password');
+                return;
+            }
+            
+            // In a real app, you would validate with a backend
+            // For demo purposes, we'll simulate login
+            const savedUser = localStorage.getItem('nutritionToolsUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                if (currentUser.email !== email) {
+                    alert('User not found. Please register first.');
+                    return;
+                }
+            } else {
+                // Create demo user
+                currentUser = {
+                    email: email,
+                    name: email.split('@')[0],
+                    plan: 'premium',
+                    joinDate: new Date().toISOString()
+                };
+                localStorage.setItem('nutritionToolsUser', JSON.stringify(currentUser));
+            }
+            
+            showToolDashboard();
+            alert('Login successful! Welcome to your nutrition tools.');
+        }
+        
+        // Register for tools
+        function registerForTools() {
+            const email = document.getElementById('reg-email').value;
+            const name = document.getElementById('reg-name').value;
+            const password = document.getElementById('reg-password').value;
+            const plan = document.getElementById('reg-plan').value;
+            
+            if (!email || !name || !password) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long');
+                return;
+            }
+            
+            // Create user account
+            currentUser = {
+                email: email,
+                name: name,
+                plan: plan,
+                joinDate: new Date().toISOString(),
+                tools: []
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('nutritionToolsUser', JSON.stringify(currentUser));
+            
+            // Initialize user history
+            localStorage.setItem(`history_${email}`, JSON.stringify([]));
+            
+            showToolDashboard();
+            alert('Account created successfully! Welcome to NutritionMtaani Premium Tools.');
+        }
+        
+        // Logout from tools
+        function logoutFromTools() {
+            currentUser = null;
+            localStorage.removeItem('currentUserSession');
+            showAuthSection();
+            alert('Logged out successfully.');
+        }
+        
+        // Select plan
+        function selectPlan(plan) {
+            if (!currentUser) {
+                alert('Please login or register first');
+                showTab('register');
+                return;
+            }
+            
+            currentUser.plan = plan;
+            localStorage.setItem('nutritionToolsUser', JSON.stringify(currentUser));
+            
+            document.getElementById('user-plan').textContent = plan.charAt(0).toUpperCase() + plan.slice(1) + ' Plan';
+            alert(`Plan updated to ${plan} package!`);
+        }
+        
+        // Start free trial
+        function startFreeTrial() {
+            alert('Free trial started! You have 7 days to explore all premium features.');
+            // In a real app, you would start a trial period
+        }
+        
+        // ============================================
+        // TOOL MODAL FUNCTIONS
+        // ============================================
+        
+        // Open modal
+        function openModal(modalId) {
+            if (!currentUser) {
+                alert('Please login to access this tool');
+                return;
+            }
+            
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Open specific tool modals
+        function openBMITool() {
+            openModal('bmi-modal');
+            // Set current date in report
+            document.getElementById('report-date').textContent = new Date().toLocaleDateString();
+        }
+        
+        function openCalorieTool() {
+            openModal('calorie-modal');
+        }
+        
+        function openMealPlanner() {
+            openModal('meal-modal');
+        }
+        
+        function openProgressTracker() {
+            openModal('progress-modal');
+        }
+        
+        function openHydrationTracker() {
+            alert('Hydration tracker coming soon!');
+        }
+        
+        function openHealthReports() {
+            alert('Health reports coming soon!');
+        }
+        
+        // ============================================
+        // REPORT GENERATION FUNCTIONS
+        // ============================================
+        
+        // Generate BMI report
+        function generateBMIReport() {
+            const height = parseFloat(document.getElementById('modal-height').value);
+            const weight = parseFloat(document.getElementById('modal-weight').value);
+            const age = parseInt(document.getElementById('modal-age').value);
+            const gender = document.getElementById('modal-gender').value;
+            
+            if (!height || !weight || !age) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Calculate BMI
+            const heightMeters = height / 100;
+            const bmi = weight / (heightMeters * heightMeters);
+            const roundedBMI = bmi.toFixed(1);
+            
+            // Determine category
+            let category = '';
+            let categoryColor = '';
+            let recommendations = '';
+            
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                categoryColor = '#FF9800';
+                recommendations = `• Increase calorie intake by 300-500 calories daily
+• Focus on nutrient-dense foods: avocado, nuts, whole grains
+• Include protein with every meal (beans, eggs, chicken, fish)
+• Strength training 2-3 times per week to build muscle
+• Eat 3 main meals + 2-3 snacks daily
+• Consider consulting a nutritionist for personalized guidance`;
+            } else if (bmi < 25) {
+                category = 'Normal Weight';
+                categoryColor = '#4CAF50';
+                recommendations = `• Maintain current healthy habits
+• Continue balanced diet with all food groups
+• Exercise regularly (30 minutes, 5 times weekly)
+• Monitor weight monthly to maintain healthy range
+• Stay hydrated with 8 glasses of water daily
+• Get 7-8 hours of quality sleep each night`;
+            } else if (bmi < 30) {
+                category = 'Overweight';
+                categoryColor = '#FF9800';
+                recommendations = `• Reduce calorie intake by 500 calories daily
+• Increase physical activity to 45 minutes, 5 times weekly
+• Limit processed foods and sugary drinks
+• Increase vegetable intake to 5 servings daily
+• Drink water before meals to reduce appetite
+• Aim for 1-2kg weight loss per month
+• Consider our Weight Management Program`;
+            } else {
+                category = 'Obese';
+                categoryColor = '#F44336';
+                recommendations = `• Consult with healthcare provider before starting any program
+• Aim for 1-2kg weight loss per week
+• Combine diet modification with regular exercise
+• Consider professional nutrition guidance
+• Join support group for motivation
+• Focus on sustainable lifestyle changes, not quick fixes
+• Our Chronic Disease Management program may be beneficial`;
+            }
+            
+            // Update report display
+            document.getElementById('report-bmi-value').textContent = roundedBMI;
+            document.getElementById('report-bmi-category').innerHTML = `<span style="color: ${categoryColor}">${category}</span>`;
+            document.getElementById('report-height').textContent = height;
+            document.getElementById('report-weight').textContent = weight;
+            document.getElementById('report-age').textContent = age;
+            document.getElementById('report-gender').textContent = gender.charAt(0).toUpperCase() + gender.slice(1);
+            document.getElementById('report-recommendations').textContent = recommendations;
+            
+            // Show report section
+            document.getElementById('bmi-report-section').style.display = 'block';
+            
+            // Store report data
+            currentReport = {
+                type: 'bmi',
+                data: {
+                    bmi: roundedBMI,
+                    category: category,
+                    height: height,
+                    weight: weight,
+                    age: age,
+                    gender: gender,
+                    recommendations: recommendations,
+                    date: new Date().toISOString()
+                }
+            };
+            
+            // Add to history
+            addToHistory('BMI Analysis', `BMI: ${roundedBMI} (${category})`);
+            
+            // Scroll to report
+            document.getElementById('bmi-report-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Generate calorie report
+        function generateCalorieReport() {
+            const age = parseInt(document.getElementById('cal-age').value);
+            const gender = document.getElementById('cal-gender').value;
+            const height = parseFloat(document.getElementById('cal-height').value);
+            const weight = parseFloat(document.getElementById('cal-weight').value);
+            const activity = parseFloat(document.getElementById('cal-activity').value);
+            const goal = document.getElementById('cal-goal').value;
+            
+            if (!age || !height || !weight) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Calculate BMR (Mifflin-St Jeor Equation)
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+            
+            // Calculate maintenance calories
+            const maintenance = Math.round(bmr * activity);
+            
+            // Calculate goal-based calories
+            let weightLoss = maintenance;
+            let weightGain = maintenance;
+            
+            switch(goal) {
+                case 'lose':
+                    weightLoss = Math.round(maintenance * 0.85); // 15% deficit
+                    break;
+                case 'lose2':
+                    weightLoss = Math.round(maintenance * 0.75); // 25% deficit
+                    break;
+                case 'gain':
+                    weightGain = Math.round(maintenance * 1.10); // 10% surplus
+                    break;
+                case 'gain2':
+                    weightGain = Math.round(maintenance * 1.20); // 20% surplus
+                    break;
+            }
+            
+            // Update display
+            document.getElementById('cal-maintenance').textContent = maintenance.toLocaleString();
+            document.getElementById('cal-weightloss').textContent = weightLoss.toLocaleString();
+            document.getElementById('cal-weightgain').textContent = weightGain.toLocaleString();
+            
+            // Show report section
+            document.getElementById('calorie-report-section').style.display = 'block';
+            
+            // Store report data
+            currentReport = {
+                type: 'calorie',
+                data: {
+                    maintenance: maintenance,
+                    weightLoss: weightLoss,
+                    weightGain: weightGain,
+                    age: age,
+                    gender: gender,
+                    height: height,
+                    weight: weight,
+                    activity: activity,
+                    goal: goal,
+                    date: new Date().toISOString()
+                }
+            };
+            
+            // Add to history
+            addToHistory('Calorie Analysis', `Maintenance: ${maintenance} calories/day`);
+            
+            // Scroll to report
+            document.getElementById('calorie-report-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Generate meal plan
+        function generateMealPlan() {
+            const calories = parseInt(document.getElementById('meal-calories').value);
+            const diet = document.getElementById('meal-diet').value;
+            const budget = document.getElementById('meal-budget').value;
+            const allergies = document.getElementById('meal-allergies').value;
+            
+            if (!calories || calories < 1200 || calories > 5000) {
+                alert('Please enter a valid calorie target (1200-5000 calories)');
+                return;
+            }
+            
+            // Sample meal plan data (in real app, this would come from AI)
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            const mealTypes = ['Breakfast', 'Lunch', 'Dinner'];
+            
+            let weeklyPlanHTML = '';
+            days.forEach(day => {
+                weeklyPlanHTML += `
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h5 style="color: var(--primary-color); margin-bottom: 10px;">${day}</h5>
+                        <p><strong>Breakfast:</strong> 2 eggs, 1 slice whole wheat bread, 1 banana (350 cal)</p>
+                        <p><strong>Lunch:</strong> Ugali, sukuma wiki, grilled chicken breast (550 cal)</p>
+                        <p><strong>Dinner:</strong> Brown rice, beans, mixed vegetables (450 cal)</p>
+                        <p><strong>Snacks:</strong> Apple, yogurt, nuts (300 cal)</p>
+                        <p><em>Total: ${calories} calories</em></p>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('weekly-meal-plan').innerHTML = weeklyPlanHTML;
+            
+            // Shopping list
+            const shoppingItems = [
+                'Whole wheat bread - 1 loaf',
+                'Eggs - 1 dozen',
+                'Bananas - 7 pieces',
+                'Chicken breast - 1kg',
+                'Sukuma wiki - 2 bunches',
+                'Tomatoes - 6 pieces',
+                'Onions - 4 pieces',
+                'Brown rice - 2kg',
+                'Beans - 1kg',
+                'Mixed vegetables - 1kg',
+                'Apples - 7 pieces',
+                'Yogurt - 1 liter',
+                'Mixed nuts - 500g',
+                'Cooking oil - 1 liter',
+                'Salt, pepper, spices'
+            ];
+            
+            let shoppingListHTML = '';
+            shoppingItems.forEach(item => {
+                shoppingListHTML += `<p style="margin-bottom: 5px;">• ${item}</p>`;
+            });
+            
+            document.getElementById('shopping-list').innerHTML = shoppingListHTML;
+            
+            // Show report section
+            document.getElementById('meal-report-section').style.display = 'block';
+            
+            // Store report data
+            currentReport = {
+                type: 'meal',
+                data: {
+                    calories: calories,
+                    diet: diet,
+                    budget: budget,
+                    allergies: allergies,
+                    date: new Date().toISOString(),
+                    shoppingList: shoppingItems
+                }
+            };
+            
+            // Add to history
+            addToHistory('Meal Plan', `${calories} calories/day, ${diet} diet`);
+            
+            // Scroll to report
+            document.getElementById('meal-report-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Save progress entry
+        function saveProgressEntry() {
+            const date = document.getElementById('progress-date').value;
+            const weight = parseFloat(document.getElementById('progress-weight').value);
+            const waist = parseInt(document.getElementById('progress-waist').value);
+            const energy = parseInt(document.getElementById('progress-energy').value);
+            const notes = document.getElementById('progress-notes').value;
+            
+            if (!date || !weight) {
+                alert('Please enter at least date and weight');
+                return;
+            }
+            
+            // Get existing progress
+            const progressKey = `progress_${currentUser.email}`;
+            let progress = JSON.parse(localStorage.getItem(progressKey) || '[]');
+            
+            // Add new entry
+            progress.push({
+                date: date,
+                weight: weight,
+                waist: waist || null,
+                energy: energy || null,
+                notes: notes || '',
+                timestamp: new Date().toISOString()
+            });
+            
+            // Save to localStorage
+            localStorage.setItem(progressKey, JSON.stringify(progress));
+            
+            // Clear form
+            document.getElementById('progress-weight').value = '';
+            document.getElementById('progress-waist').value = '';
+            document.getElementById('progress-energy').value = '';
+            document.getElementById('progress-notes').value = '';
+            
+            alert('Progress saved successfully!');
+            
+            // Add to history
+            addToHistory('Progress Entry', `Weight: ${weight}kg on ${date}`);
+        }
+        
+        // Generate progress report
+        function generateProgressReport() {
+            const progressKey = `progress_${currentUser.email}`;
+            const progress = JSON.parse(localStorage.getItem(progressKey) || '[]');
+            
+            if (progress.length === 0) {
+                alert('No progress data found. Please save some entries first.');
+                return;
+            }
+            
+            // Calculate statistics
+            const totalEntries = progress.length;
+            const firstWeight = progress[0].weight;
+            const latestWeight = progress[progress.length - 1].weight;
+            const weightChange = (latestWeight - firstWeight).toFixed(1);
+            const daysTracked = Math.ceil((new Date(progress[progress.length - 1].date) - new Date(progress[0].date)) / (1000 * 60 * 60 * 24)) + 1;
+            
+            // Update display
+            document.getElementById('progress-total').textContent = totalEntries;
+            document.getElementById('progress-weight-change').textContent = `${weightChange} kg`;
+            document.getElementById('progress-days').textContent = daysTracked;
+            
+            // Generate insights
+            let insights = '';
+            if (weightChange < 0) {
+                insights = `Great progress! You've lost ${Math.abs(weightChange)}kg over ${daysTracked} days.\n\n`;
+                insights += `That's an average of ${(Math.abs(weightChange)/daysTracked * 7).toFixed(2)}kg per week.\n\n`;
+                insights += `Keep up the good work! Continue with your current routine and consider adding strength training to preserve muscle mass.`;
+            } else if (weightChange > 0) {
+                insights = `You've gained ${weightChange}kg over ${daysTracked} days.\n\n`;
+                insights += `If this wasn't intentional, consider reviewing your calorie intake and activity levels.\n\n`;
+                insights += `Our Calorie Calculator can help you find the right balance for your goals.`;
+            } else {
+                insights = `Your weight has remained stable over ${daysTracked} days.\n\n`;
+                insights += `This is excellent if your goal is weight maintenance.\n\n`;
+                insights += `Consider tracking other metrics like waist circumference and energy levels for a more complete picture.`;
+            }
+            
+            document.getElementById('progress-insights').innerHTML = `<p style="white-space: pre-line;">${insights}</p>`;
+            
+            // Show report section
+            document.getElementById('progress-report-section').style.display = 'block';
+            
+            // Store report data
+            currentReport = {
+                type: 'progress',
+                data: {
+                    totalEntries: totalEntries,
+                    weightChange: weightChange,
+                    daysTracked: daysTracked,
+                    progress: progress,
+                    date: new Date().toISOString()
+                }
+            };
+            
+            // Add to history
+            addToHistory('Progress Report', `${totalEntries} entries, ${weightChange}kg change`);
+            
+            // Scroll to report
+            document.getElementById('progress-report-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // ============================================
+        // DOWNLOAD FUNCTIONS
+        // ============================================
+        
+        // Download report
+        function downloadReport(format, reportType) {
+            if (!currentReport) {
+                alert('No report data available. Please generate a report first.');
+                return;
+            }
+            
+            let content = '';
+            let filename = '';
+            let mimeType = '';
+            
+            switch(reportType) {
+                case 'bmi':
+                    filename = `BMI_Report_${new Date().getTime()}`;
+                    content = generateBMIReportContent(currentReport.data);
+                    break;
+                case 'calorie':
+                    filename = `Calorie_Report_${new Date().getTime()}`;
+                    content = generateCalorieReportContent(currentReport.data);
+                    break;
+                case 'meal':
+                    filename = `Meal_Plan_${new Date().getTime()}`;
+                    content = generateMealReportContent(currentReport.data);
+                    break;
+                case 'progress':
+                    filename = `Progress_Report_${new Date().getTime()}`;
+                    content = generateProgressReportContent(currentReport.data);
+                    break;
+            }
+            
+            switch(format) {
+                case 'pdf':
+                    // In a real app, you would use a PDF library like jsPDF
+                    alert('PDF generation would require a PDF library. For now, downloading as text file.');
+                    format = 'text';
+                    // Fall through to text download
+                case 'text':
+                    mimeType = 'text/plain';
+                    filename += '.txt';
+                    break;
+                case 'csv':
+                    mimeType = 'text/csv';
+                    filename += '.csv';
+                    content = convertToCSV(content);
+                    break;
+                case 'excel':
+                    mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                    filename += '.xlsx';
+                    alert('Excel download would require SheetJS library. For now, downloading as CSV.');
+                    mimeType = 'text/csv';
+                    filename = filename.replace('.xlsx', '.csv');
+                    content = convertToCSV(content);
+                    break;
+            }
+            
+            // Create and download file
+            const element = document.createElement('a');
+            const file = new Blob([content], {type: mimeType});
+            element.href = URL.createObjectURL(file);
+            element.download = filename;
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+            
+            alert(`Report downloaded as ${filename}`);
+        }
+        
+        // Generate BMI report content
+        function generateBMIReportContent(data) {
+            return `
+NUTRITIONMTAANI - BMI ANALYSIS REPORT
+=====================================
+
+Report Date: ${new Date(data.date).toLocaleDateString()}
+
+PERSONAL INFORMATION
+-------------------
+Height: ${data.height} cm
+Weight: ${data.weight} kg
+Age: ${data.age} years
+Gender: ${data.gender}
+
+BMI RESULTS
+-----------
+BMI: ${data.bmi}
+Category: ${data.category}
+
+RECOMMENDATIONS
+---------------
+${data.recommendations}
+
+HEALTHY BMI RANGES
+------------------
+Underweight: Below 18.5
+Normal weight: 18.5 - 24.9
+Overweight: 25 - 29.9
+Obese: 30 and above
+
+NOTES
+-----
+• This report is generated by NutritionMtaani AI
+• For personalized nutrition plans, visit nutritionmtaani.com
+• Always consult with healthcare professionals for medical advice
+• Regular monitoring is recommended every 3-6 months
+
+Contact: 0703 708 903 | nutritionmtaani@gmail.com
+Website: nutritionmtaani.com
+            `;
+        }
+        
+        // Generate calorie report content
+        function generateCalorieReportContent(data) {
+            return `
+NUTRITIONMTAANI - CALORIE ANALYSIS REPORT
+=========================================
+
+Report Date: ${new Date(data.date).toLocaleDateString()}
+
+PERSONAL INFORMATION
+-------------------
+Age: ${data.age} years
+Gender: ${data.gender}
+Height: ${data.height} cm
+Weight: ${data.weight} kg
+Activity Level: ${getActivityLevelText(data.activity)}
+Goal: ${getGoalText(data.goal)}
+
+DAILY CALORIE NEEDS
+-------------------
+Maintenance: ${data.maintenance.toLocaleString()} calories/day
+Weight Loss: ${data.weightLoss.toLocaleString()} calories/day
+Weight Gain: ${data.weightGain.toLocaleString()} calories/day
+
+CALCULATION METHOD
+------------------
+Using Mifflin-St Jeor Equation:
+BMR = ${data.gender === 'male' ? '10 × weight + 6.25 × height - 5 × age + 5' : '10 × weight + 6.25 × height - 5 × age - 161'}
+
+Activity Multipliers:
+• Sedentary (little/no exercise): × 1.2
+• Lightly active: × 1.375
+• Moderately active: × 1.55
+• Very active: × 1.725
+• Extra active: × 1.9
+
+RECOMMENDATIONS
+---------------
+1. For weight loss: Aim for ${data.weightLoss.toLocaleString()} calories/day
+2. For weight maintenance: Aim for ${data.maintenance.toLocaleString()} calories/day
+3. For weight gain: Aim for ${data.weightGain.toLocaleString()} calories/day
+
+SAMPLE MEAL DISTRIBUTION
+------------------------
+Breakfast: 25% of daily calories
+Lunch: 35% of daily calories
+Dinner: 25% of daily calories
+Snacks: 15% of daily calories
+
+MACRONUTRIENT DISTRIBUTION
+--------------------------
+Protein: 20-30% of calories
+Carbohydrates: 40-50% of calories
+Fats: 25-35% of calories
+
+NOTES
+-----
+• Adjust portions based on hunger and activity levels
+• Drink 8 glasses of water daily
+• Include protein with every meal
+• Focus on whole, unprocessed foods
+• Track progress weekly
+
+Contact: 0703 708 903 | nutritionmtaani@gmail.com
+Website: nutritionmtaani.com
+            `;
+        }
+        
+        // Generate meal plan report content
+        function generateMealReportContent(data) {
+            return `
+NUTRITIONMTAANI - MEAL PLAN REPORT
+==================================
+
+Generated: ${new Date(data.date).toLocaleDateString()}
+Calorie Target: ${data.calories} calories/day
+Diet Type: ${data.diet}
+Budget Level: ${data.budget}
+Allergies/Restrictions: ${data.allergies}
+
+WEEKLY MEAL PLAN
+----------------
+
+MONDAY
+------
+Breakfast: 2 eggs, 1 slice whole wheat bread, 1 banana (350 cal)
+Lunch: Ugali, sukuma wiki, grilled chicken breast (550 cal)
+Dinner: Brown rice, beans, mixed vegetables (450 cal)
+Snacks: Apple, yogurt, nuts (300 cal)
+Total: ${data.calories} calories
+
+TUESDAY
+-------
+Breakfast: Oatmeal with milk and berries (350 cal)
+Lunch: Whole wheat chapati, lentils, cabbage salad (550 cal)
+Dinner: Fish stew with ugali, kachumbari (450 cal)
+Snacks: Orange, peanuts (300 cal)
+Total: ${data.calories} calories
+
+WEDNESDAY
+---------
+Breakfast: Smoothie (banana, spinach, yogurt) (350 cal)
+Lunch: Brown rice, beans, avocado (550 cal)
+Dinner: Chicken stir-fry with vegetables (450 cal)
+Snacks: Pear, cheese (300 cal)
+Total: ${data.calories} calories
+
+THURSDAY
+--------
+Breakfast: Scrambled eggs with tomatoes, 1 slice bread (350 cal)
+Lunch: Ugali, managu, grilled fish (550 cal)
+Dinner: Lentil soup, whole wheat roll (450 cal)
+Snacks: Banana, almonds (300 cal)
+Total: ${data.calories} calories
+
+FRIDAY
+------
+Breakfast: Yogurt with granola and honey (350 cal)
+Lunch: Rice pilau with chicken (550 cal)
+Dinner: Vegetable curry with brown rice (450 cal)
+Snacks: Apple, boiled egg (300 cal)
+Total: ${data.calories} calories
+
+SATURDAY
+--------
+Breakfast: Pancakes with fruit (350 cal)
+Lunch: Spaghetti with meat sauce, salad (550 cal)
+Dinner: Grilled chicken with roasted vegetables (450 cal)
+Snacks: Smoothie bowl (300 cal)
+Total: ${data.calories} calories
+
+SUNDAY
+------
+Breakfast: Full English breakfast (350 cal)
+Lunch: Sunday roast with vegetables (550 cal)
+Dinner: Light soup and sandwiches (450 cal)
+Snacks: Fruit salad (300 cal)
+Total: ${data.calories} calories
+
+SHOPPING LIST
+-------------
+${data.shoppingList.map(item => `• ${item}`).join('\n')}
+
+PREPARATION TIPS
+----------------
+1. Cook in batches to save time
+2. Store meals in portion-sized containers
+3. Wash and chop vegetables in advance
+4. Use local, seasonal produce for best value
+5. Adjust portions based on individual needs
+
+NOTES
+-----
+• This meal plan is AI-generated
+• Adjust based on personal preferences
+• Consult healthcare provider for medical conditions
+• Drink plenty of water throughout the day
+
+Contact: 0703 708 903 | nutritionmtaani@gmail.com
+Website: nutritionmtaani.com
+            `;
+        }
+        
+        // Generate progress report content
+        function generateProgressReportContent(data) {
+            return `
+NUTRITIONMTAANI - PROGRESS TRACKING REPORT
+==========================================
+
+Generated: ${new Date(data.date).toLocaleDateString()}
+
+SUMMARY STATISTICS
+------------------
+Total Entries: ${data.totalEntries}
+Weight Change: ${data.weightChange} kg
+Days Tracked: ${data.daysTracked}
+
+DETAILED PROGRESS
+-----------------
+${data.progress.map(entry => `
+Date: ${entry.date}
+Weight: ${entry.weight} kg
+Waist: ${entry.waist || 'N/A'} cm
+Energy Level: ${entry.energy || 'N/A'}/10
+Notes: ${entry.notes || 'None'}
+---`).join('\n')}
+
+INSIGHTS
+--------
+Based on your progress data, here are some observations:
+
+${data.weightChange < 0 ? 
+`• You're making excellent progress with weight loss
+• Consider adding strength training to preserve muscle mass
+• Ensure adequate protein intake to support your goals` :
+data.weightChange > 0 ?
+`• Weight gain detected - review your calorie intake
+• Consider more frequent activity if unintentional
+• Our Calorie Calculator can help adjust your targets` :
+`• Your weight has remained stable
+• This is great for weight maintenance
+• Consider tracking other health metrics`}
+
+RECOMMENDATIONS
+---------------
+1. Continue tracking consistently
+2. Take progress photos monthly
+3. Measure waist circumference weekly
+4. Note energy levels and mood
+5. Adjust your plan based on results
+
+NEXT STEPS
+----------
+• Review your meal plan if progress stalls
+• Consider consulting a nutritionist
+• Join our support community for motivation
+• Set new goals based on your achievements
+
+NOTES
+-----
+• Consistency is key for long-term success
+• Small, sustainable changes work best
+• Celebrate non-scale victories too
+• Health is about more than just weight
+
+Contact: 0703 708 903 | nutritionmtaani@gmail.com
+Website: nutritionmtaani.com
+            `;
+        }
+        
+        // Convert content to CSV
+        function convertToCSV(content) {
+            // Simple conversion - in real app, you'd parse the content properly
+            const lines = content.split('\n');
+            let csv = '';
+            
+            lines.forEach(line => {
+                if (line.trim()) {
+                    // Remove markdown formatting and convert to CSV format
+                    const cleanLine = line.replace(/[#*=|-]/g, '').trim();
+                    if (cleanLine) {
+                        csv += `"${cleanLine}"\n`;
+                    }
+                }
+            });
+            
+            return csv;
+        }
+        
+        // Helper functions
+        function getActivityLevelText(multiplier) {
+            switch(multiplier.toString()) {
+                case '1.2': return 'Sedentary (little/no exercise)';
+                case '1.375': return 'Lightly active';
+                case '1.55': return 'Moderately active';
+                case '1.725': return 'Very active';
+                case '1.9': return 'Extra active';
+                default: return 'Moderately active';
+            }
+        }
+        
+        function getGoalText(goal) {
+            switch(goal) {
+                case 'maintain': return 'Maintain weight';
+                case 'lose': return 'Lose weight (0.5 kg/week)';
+                case 'lose2': return 'Lose weight (1 kg/week)';
+                case 'gain': return 'Gain weight (0.5 kg/week)';
+                case 'gain2': return 'Gain weight (1 kg/week)';
+                default: return 'Maintain weight';
+            }
+        }
+        
+        // ============================================
+        // HISTORY MANAGEMENT FUNCTIONS
+        // ============================================
+        
+        // Add entry to history
+        function addToHistory(title, description) {
+            if (!currentUser) return;
+            
+            const historyKey = `history_${currentUser.email}`;
+            let history = JSON.parse(localStorage.getItem(historyKey) || '[]');
+            
+            history.unshift({
+                title: title,
+                description: description,
+                date: new Date().toISOString(),
+                type: currentReport ? currentReport.type : 'general'
+            });
+            
+            // Keep only last 20 entries
+            if (history.length > 20) {
+                history = history.slice(0, 20);
+            }
+            
+            localStorage.setItem(historyKey, JSON.stringify(history));
+            loadHistory();
+        }
+        
+        // Load history
+        function loadHistory() {
+            if (!currentUser) return;
+            
+            const historyKey = `history_${currentUser.email}`;
+            const history = JSON.parse(localStorage.getItem(historyKey) || '[]');
+            const historyList = document.getElementById('history-list');
+            
+            if (history.length === 0) {
+                historyList.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <i class="fas fa-history" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <p>No history yet. Use the tools to generate your first report!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let historyHTML = '';
+            history.forEach((item, index) => {
+                const date = new Date(item.date).toLocaleDateString();
+                const time = new Date(item.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                historyHTML += `
+                    <div class="history-item">
+                        <div>
+                            <strong>${item.title}</strong>
+                            <p style="color: #666; margin-top: 5px;">${item.description}</p>
+                            <small style="color: #999;">${date} at ${time}</small>
+                        </div>
+                        <div class="history-actions">
+                            <button class="btn btn-secondary" onclick="viewHistoryItem(${index})" style="padding: 5px 10px; font-size: 0.9rem;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-primary" onclick="deleteHistoryItem(${index})" style="padding: 5px 10px; font-size: 0.9rem;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            historyList.innerHTML = historyHTML;
+        }
+        
+        // View history item
+        function viewHistoryItem(index) {
+            if (!currentUser) return;
+            
+            const historyKey = `history_${currentUser.email}`;
+            const history = JSON.parse(localStorage.getItem(historyKey) || '[]');
+            
+            if (index >= 0 && index < history.length) {
+                const item = history[index];
+                alert(`${item.title}\n\n${item.description}\n\nDate: ${new Date(item.date).toLocaleString()}`);
+            }
+        }
+        
+        // Delete history item
+        function deleteHistoryItem(index) {
+            if (!currentUser) return;
+            
+            if (!confirm('Are you sure you want to delete this history item?')) {
+                return;
+            }
+            
+            const historyKey = `history_${currentUser.email}`;
+            const history = JSON.parse(localStorage.getItem(historyKey) || '[]');
+            
+            if (index >= 0 && index < history.length) {
+                history.splice(index, 1);
+                localStorage.setItem(historyKey, JSON.stringify(history));
+                loadHistory();
+                alert('History item deleted.');
+            }
+        }
+        
+        // ============================================
+        // ADDITIONAL TOOL FUNCTIONS
+        // ============================================
+        
+        // Simple BMI Calculator (for tools page preview)
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            
+            if (!height || !weight) {
+                alert('Please enter height and weight');
+                return;
+            }
+            
+            const bmi = weight / ((height/100) * (height/100));
+            const roundedBMI = bmi.toFixed(1);
+            
+            let category = '';
+            if (bmi < 18.5) category = 'Underweight';
+            else if (bmi < 25) category = 'Normal weight';
+            else if (bmi < 30) category = 'Overweight';
+            else category = 'Obese';
+            
+            document.getElementById('bmiValue').textContent = roundedBMI;
+            document.getElementById('bmiCategory').innerHTML = `<strong>Category:</strong> ${category}`;
+            document.getElementById('bmiResult').style.display = 'block';
+            
+            document.getElementById('bmiResult').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // Simple Calorie Calculator (for tools page preview)
+        function calculateCalories() {
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const weight = parseFloat(document.getElementById('calWeight').value);
+            const height = parseFloat(document.getElementById('calHeight').value);
+            const activity = parseFloat(document.getElementById('activity').value);
+            
+            if (!age || !weight || !height || !activity) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+            
+            const maintenanceCalories = Math.round(bmr * activity);
+            const weightLossCalories = Math.round(maintenanceCalories * 0.85);
+            const weightGainCalories = Math.round(maintenanceCalories * 1.15);
+            
+            document.getElementById('maintenanceCalories').textContent = maintenanceCalories;
+            document.getElementById('weightLossCalories').textContent = weightLossCalories;
+            document.getElementById('weightGainCalories').textContent = weightGainCalories;
+            document.getElementById('calorieResult').style.display = 'block';
+            
+            document.getElementById('calorieResult').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Initialize tool calculators if on tools page
+        function initTools() {
+            if (window.location.hash === '#tools') {
+                // Set default values for calculators
+                document.getElementById('height').value = '165';
+                document.getElementById('weight').value = '65';
+            }
+        }
+        
+        // Call init on hash change
+        window.addEventListener('hashchange', initTools);
+        
+        // Initialize tools on page load if on tools page
+        if (window.location.hash === '#tools') {
+            setTimeout(initTools, 100);
+        }
+    </script>
+</body>
+</html>
